@@ -7,21 +7,36 @@ var cheerio = require("cheerio");
 var Post = require("./models/Post");
 
 // Initialize Express
+var exphbs = require("express-handlebars");
 var app = express();
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/animeScraper";
 mongoose.connect(MONGODB_URI);
 
-// app.get("/", function(req, res) {
-//     Post.all(function(data) {
-//         var hbsObject = {
-//           title: data,
-//           content: data,
-//           url: data
-//         };
-//         console.log(hbsObject);
-//         res.render("index", hbsObject);
-//     });
-//   });
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+
+// Parse application body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+
+
+app.get("/", function(req, res) {
+    Post.find({}, function(err, data) {
+        if(err){
+            console.log(err);
+        };
+
+        var hbsObject = {
+            postSchema: data
+          };
+        //   console.log(hbsObject);
+          res.render("index", hbsObject);
+    });
+});
 
 app.get("/scraped", function(req, res) {
     axios.get("https://aminoapps.com/c/anime/home/").then(function(response){
