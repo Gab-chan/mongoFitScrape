@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 // Require axios and cheerio. This makes the scraping possible. Also requiring models.
 var axios = require("axios");
 var cheerio = require("cheerio");
+var logger = require("morgan");
 var Post = require("./models/Post");
 
 // Initialize Express
@@ -15,6 +16,8 @@ mongoose.connect(MONGODB_URI);
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
+// Use morgan logger for logging requests
+app.use(logger("dev"));
 // Parse application body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
