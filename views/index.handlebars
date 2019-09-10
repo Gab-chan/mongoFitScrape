@@ -2,20 +2,19 @@
 
 <ul>
   {{#each postSchema}}
-  <a href={{url}}><h1>{{title}}</h1></a>
-  <h2>{{content}}</h2>
+  <a href={{url}}><h2>{{title}}</h2></a>
+  <p>{{content}}</p>
   {{/each}}
 </ul>
 
 <h2>Those you have added: </h2>
 
-{{!-- <ul>
-  {{#each cat}
-    {{#if sleepy}}
-      {{> cats/cat-block sleep=false}}
-    {{/if}}
+<ul>
+  {{#each postSchema}}
+  <div id="articles"></div>
+  <div id="notes"></div>
   {{/each}}
-</ul> --}}
+</ul>
 
 <h2>Add a post: </h2>
 <form class="create-form">

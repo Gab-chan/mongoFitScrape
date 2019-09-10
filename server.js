@@ -9,6 +9,7 @@ var Post = require("./models/Post");
 
 // Initialize Express
 var exphbs = require("express-handlebars");
+const PORT = process.env.PORT || 8080;
 var app = express();
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/animeScraper";
 mongoose.connect(MONGODB_URI);
@@ -78,8 +79,8 @@ app.get("/api/posts", function(req, res){
 });
 
 
-// Listen on port 3000
-app.listen(8080, function() {
+// Listen on port 8080
+app.listen(PORT, function() {
     console.log("App running on port 8080!");
   });
 
