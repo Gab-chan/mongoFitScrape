@@ -28,25 +28,25 @@ app.set("view engine", "handlebars");
 
 
 
-app.get("/", function(req, res) {
-    Post.find({}, function(err, data) {
-        if(err){
+app.get("/", function (req, res) {
+    Post.find({}, function (err, data) {
+        if (err) {
             console.log(err);
         };
 
         var hbsObject = {
             postSchema: data
-          };
+        };
         //   console.log(hbsObject);
-          res.render("index", hbsObject);
+        res.render("index", hbsObject);
     });
 });
 
-app.get("/scraped", function(req, res) {
-    axios.get("https://aminoapps.com/c/anime/home/").then(function(response){
+app.get("/scraped", function (req, res) {
+    axios.get("https://aminoapps.com/c/anime/home/").then(function (response) {
         // console.log(response.data);
         var $ = cheerio.load(response.data);
-        $(".list-item").each(function(i, element){
+        $(".list-item").each(function (i, element) {
             // console.log("I found something!")
             var title = $(element).find("h3").text();
             // console.log(title);
@@ -59,18 +59,20 @@ app.get("/scraped", function(req, res) {
                 content,
                 url
             };
-            
+
             Post.create(postAdd);
-    });
+        });
+
+        res.send("Scrape Complete");
 
     });
 
-    
+
 });
 
-app.get("/api/posts", function(req, res){
-    Post.find({}, function(err, results){
-        if(err){
+app.get("/api/posts", function (req, res) {
+    Post.find({}, function (err, results) {
+        if (err) {
             console.log(err);
         };
 
@@ -80,9 +82,8 @@ app.get("/api/posts", function(req, res){
 
 
 // Listen on port 8080
-app.listen(PORT, function() {
+app.listen(PORT, function () {
     console.log("App running on port 8080!");
-  });
+});
 
 
-  
